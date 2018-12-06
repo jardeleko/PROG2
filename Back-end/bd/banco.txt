@@ -1,0 +1,81 @@
+DROP DATABASE IF EXISTS virtua;
+
+CREATE DATABASE virtua DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+USE virtua;
+
+DROP USER IF EXISTS 'viroot'@'localhost';
+
+CREATE USER 'viroot'@'localhost' IDENTIFIED BY 'virtua1604';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON virtua.* TO 'viroot'@'localhost';
+
+CREATE TABLE fabricante (
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
+	nomeFab VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ajuda(
+	nome VARCHAR(75) NOT NULL,
+	email VARCHAR(30) NOT NULL,
+	telefone VARCHAR(20),
+	perfil VARCHAR(30),
+	assunto VARCHAR(90),
+	horario VARCHAR(20),
+	mensagem VARCHAR(200)
+	FOREIGN KEY (nome) REFERECES cliente(nome)
+);
+
+CREATE TABLE produto(
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
+	nomeProd VARCHAR(50) NOT NULL,
+	idFab INTEGER,
+	imagem VARCHAR(50),
+	descricao TEXT,
+	catConsole BOOLEAN DEFAULT FALSE,
+	catDesk BOOLEAN DEFAULT FALSE,
+	catGames BOOLEAN DEFAULT FALSE,
+	catPromo BOOLEAN DEFAULT FALSE,
+	catOutros BOOLEAN DEFAULT FALSE,
+	qtde INTEGER,
+	valor REAL,
+	desconto REAL DEFAULT 0,
+	FOREIGN KEY (idFab) REFERENCES fabricante(id)
+);
+
+CREATE TABLE cliente (
+	id INTEGER AUTO_INCREMENT PRIMARY KEY,
+	nome VARCHAR(50) NOT NULL,
+	dataNasc VARCHAR(30),
+	rg VARCHAR(20),
+	cpf VARCHAR(30),
+	endereco VARCHAR(50) NOT NULL,
+	bairro VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	imgPerfil VARCHAR(50),
+	login VARCHAR(50) NOT NULL,
+	senha VARCHAR(50) NOT NULL
+
+);
+
+CREATE TABLE pedido(
+	numero INTEGER AUTO_INCREMENT PRIMARY KEY,
+	idCliente INTEGER,
+	taxaEntrega REAL,
+	tipoEntrega tinyint(1),
+	dataPedido DATETIME,
+	dataRetirada DATETIME,
+	dataDevolucao DATETIME,
+	status tinyint(1),
+	FOREIGN KEY (idCliente) REFERENCES cliente(id)
+);
+
+CREATE TABLE pedido_itens(
+	numPedido INTEGER,
+	idProduto INTEGER,
+	quantidade INTEGER,
+	valorLocacao REAL,
+	PRIMARY KEY(numPedido, idProduto),
+	FOREIGN KEY (numPedido) REFERENCES Pedido(numero),
+	FOREIGN KEY (idProduto) REFERENCES produto(id)
+);

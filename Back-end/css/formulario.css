@@ -1,0 +1,29 @@
+form-item{
+	padding: 7px;
+}
+.msg-erro{
+	padding-left: 200px;
+	padding-top: 10px;
+	color:red;
+	font-size:0.78em;
+	font-style:italic;
+}
+.label-alinhado {
+	display: inline-block;
+	width: 200px;
+	text-align: right;
+}
+input[type="text"], input[type="email"], input[type="password"], seclect, textarea {
+	border: 1px solid #7a8089;
+	padding: 3px;
+}
+input[type="submit"]{
+	background-color: #7a8089;
+	color: #fff;
+	padding: 3px 20px;
+	border:none;
+}
+input[type="submit"]:hover{
+	box-shadow: 2px 2px 2px #000;
+	cursor: pointer;
+}
